@@ -207,6 +207,8 @@ class Solver:
                     # print("解が2個以上あります")
                     raise exception.MultipleAnswerException
                 return True
+            elif any(len(values[s]) == 0 for s in h.square):
+                return False
 
             _, target = min((len(values[s]), s) for s in h.square if len(values[s]) > 1)
             result = [self.brute_force(self.assign(copy.deepcopy(values), target, d)) for d in values[target]]

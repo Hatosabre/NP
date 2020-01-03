@@ -17,4 +17,4 @@ def get_combination(string, n):
 
 
 def to_csv(vals):
-    return '"{}"'.format(vals)
+    return "'{}'".format(vals)
