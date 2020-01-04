@@ -1,5 +1,6 @@
 import house as house
 import solver as st
+import exception
 import random
 
 h = house.House()
@@ -51,26 +52,26 @@ while True:
     g = Generator()
     g.fill()
     while True:
-        strategy = st.Solver()
-        if not strategy.set_quest(g.get_str()):
-            break
-        for c in range(2, 5):
-            strategy.multiple_country(strategy.values, c)
-
         try:
+            strategy = st.Solver()
+            strategy.set_quest(g.get_str())
+            for c in range(2, 5):
+                strategy.multiple_country(strategy.values, c)
+
             if not strategy.brute_force(strategy.values):
-                # print("解なし")
-                break
+                raise exception.NonAnswerException
             else:
                 ans.append(g.get_str())
                 print(g.get_str())
                 break
-        except Exception:
+        except exception.NonAnswerException:
+            break
+        except exception.MultipleAnswerException:
             g.update(g.next)
             continue
 
-    if len(ans) == 1000000:
+    if len(ans) == 7608:
         break
-
-with open("./question/ans.csv", "w") as f:
+print(ans)
+with open("./question/ans_alt.csv", "a") as f:
     f.write("\n".join(ans))

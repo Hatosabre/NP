@@ -261,7 +261,6 @@ if __name__ == '__main__':
             answer.append(util.to_csv(str(strategy.case_count())))
             if strategy.brute_force(strategy.values):
                 a = dt.datetime.now() - start
-                print(a)
                 answer.append(util.to_csv(strategy.dict_to_str()))
                 answer.append(util.to_csv(str(a.microseconds)))
                 ans.append(answer)
