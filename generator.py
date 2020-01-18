@@ -1,10 +1,7 @@
-import house as house
-from house import House as H
 import solver as st
 import exception
 import random
-
-h = H()
+import definition as df
 
 
 class Generator:
@@ -23,7 +20,7 @@ class Generator:
 
         # ランダムに各マスに順位付けを行う
         rank = list(range(81))
-        for s in h.square:
+        for s in df.SQUARE:
             i = random.choice(rank)
             self.rank[i] = s
             rank.remove(i)
@@ -48,10 +45,10 @@ class Generator:
         s = self.rank[self.next]
 
         # 埋められない数字を取得
-        not_cand = "".join(set("".join(self.quest[o] for o in h.peers[s])))
+        not_cand = "".join(set("".join(self.quest[o] for o in df.PEERS[s])))
 
         # 埋められる数字を取得
-        cand = [n for n in house.NUM if n not in not_cand]
+        cand = [n for n in df.NUMERIC if n not in not_cand]
 
         # 埋められる数字がなければ、リセットする
         if len(cand) == 0:
@@ -73,7 +70,7 @@ class Generator:
 
     # 81マス形式にする
     def get_str(self):
-        result = "".join(self.quest[s] for s in h.square)
+        result = "".join(self.quest[s] for s in df.SQUARE)
         return result
 
 
@@ -96,13 +93,11 @@ def main(c, n, o):
         while True:
             try:
                 # ソルバークラス
-                s = st.Solver(c)
+                s = st.Solver(g.get_str(), c)
 
-                # 生成された問題をセット
-                s.set_quest(g.get_str())
                 for c in range(2, 5):
                     # N国同盟
-                    s.multiple_country(s.values, c)
+                    s.remove_by_n_association(s.values, c)
 
                 # 探索
                 if not s.brute_force(s.values):

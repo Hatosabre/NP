@@ -1,3 +1,7 @@
+def get_candidates(values, sites):
+    return "".join(set("".join(values[s] for s in sites if len(values[s]) > 1)))
+
+
 def get_combination(string, n):
     values = []
 
@@ -16,5 +20,17 @@ def get_combination(string, n):
     return values
 
 
-def to_csv(vals):
-    return "'{}'".format(vals)
+def get_empty_cell_combination(values, sites, threshold=2):
+    import itertools as it
+    return it.combinations([s for s in sites if len(values[s]) >= threshold], threshold)
+
+
+def get_links(values):
+    pass
+
+
+def to_csv(vals, typ=float):
+    if typ is str:
+        return "'{}'".format(vals)
+    if typ is float:
+        return str(vals)

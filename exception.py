@@ -4,5 +4,5 @@ class NonAnswerException(Exception):
 
 
 class MultipleAnswerException(Exception):
-    """解が二つ以上ある例外"""
+    """解が基準以上ある例外"""
     pass
